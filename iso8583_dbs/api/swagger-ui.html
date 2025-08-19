@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>API ISO 8583 Messages - Documentation</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css" />
+    <link rel="icon" type="image/png" href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/favicon-32x32.png" sizes="32x32" />
+    <style>
+        html {
+            box-sizing: border-box;
+            overflow: -moz-scrollbars-vertical;
+            overflow-y: scroll;
+        }
+        
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+
+        body {
+            margin:0;
+            background: #fafafa;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+        }
+
+        .swagger-ui .topbar {
+            background-color: #1f4e79;
+        }
+        
+        .swagger-ui .topbar .download-url-wrapper .download-url-button {
+            background-color: #4a90e2;
+        }
+
+        .swagger-ui .info .title {
+            color: #1f4e79;
+        }
+
+        /* Personnalisation pour l'authentification */
+        .auth-container {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .auth-container h3 {
+            color: #856404;
+            margin-top: 0;
+        }
+
+        .auth-container p {
+            color: #856404;
+            margin-bottom: 0;
+        }
+
+        /* Style pour les exemples de code */
+        .code-example {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Container principal de Swagger UI -->
+    <div id="swagger-ui"></div>
+
+    <!-- Section d'aide pour l'authentification -->
+    <div style="max-width: 1460px; margin: 20px auto; padding: 0 20px;">
+        <div class="auth-container">
+            <h3>🔐 Guide d'authentification</h3>
+            <p>
+                Cette API nécessite une authentification Bearer Token. 
+                Cliquez sur le bouton <strong>"Authorize"</strong> en haut à droite et entrez votre token 
+                au format: <code>Bearer votre_token_ici</code>
+            </p>
+        </div>
+
+        <div style="background-color: #e7f3ff; border: 1px solid #b3d9ff; border-radius: 4px; padding: 15px; margin-top: 15px;">
+            <h3 style="color: #0066cc; margin-top: 0;">📝 Exemple d'utilisation avec cURL</h3>
+            
+            <h4>1. Récupérer la liste des messages:</h4>
+            <div class="code-example">
+curl -X GET "http://localhost/api/messages?page=1&limit=10" \
+     -H "Authorization: Bearer votre_token" \
+     -H "Content-Type: application/json"
+            </div>
+
+            <h4>2. Créer un nouveau message depuis un fichier XML:</h4>
+            <div class="code-example">
+curl -X POST "http://localhost/api/messages" \
+     -H "Authorization: Bearer votre_token" \
+     -F "xml_file=@message_iso8583.xml"
+            </div>
+
+            <h4>3. Récupérer un message spécifique:</h4>
+            <div class="code-example">
+curl -X GET "http://localhost/api/messages/123" \
+     -H "Authorization: Bearer votre_token" \
+     -H "Content-Type: application/json"
+            </div>
+
+            <h4>4. Supprimer un message:</h4>
+            <div class="code-example">
+curl -X DELETE "http://localhost/api/messages/123" \
+     -H "Authorization: Bearer votre_token"
+            </div>
+        </div>
+    </div>
+
+    <!-- Chargement des scripts Swagger UI -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-standalone-preset.min.js"></script>
+    
+    <script>
+        window.onload = function() {
+            // Configuration de Swagger UI
+            const ui = SwaggerUIBundle({
+                // Chemin vers le fichier swagger.yaml
+                url: './swagger.yaml',
+                
+                // Conteneur DOM
+                dom_id: '#swagger-ui',
+                
+                // Configuration des presets
+                presets: [
+                    SwaggerUIBundle.presets.apis,
+                    SwaggerUIStandalonePreset
+                ],
+                
+                // Layout
+                layout: "StandaloneLayout",
+                
+                // Configuration générale
+                deepLinking: true,
+                showExtensions: true,
+                showCommonExtensions: true,
+                
+                // Paramètres de sécurité
+                persistAuthorization: true,
+                
+                // Configuration des requêtes
+                requestInterceptor: function(request) {
+                    // Log des requêtes pour le débogage
+                    console.log('Request:', request);
+                    return request;
+                },
+                
+                // Configuration des réponses
+                responseInterceptor: function(response) {
+                    // Log des réponses pour le débogage
+                    console.log('Response:', response);
+                    return response;
+                },
+                
+                // Options d'affichage
+                docExpansion: 'list',
+                defaultModelExpandDepth: 2,
+                defaultModelsExpandDepth: 2,
+                
+                // Support des CORS
+                requestSnippets: {
+                    generators: {
+                        "curl_bash": {
+                            title: "cURL (bash)",
+                            syntax: "bash"
+                        },
+                        "curl_powershell": {
+                            title: "cURL (PowerShell)",
+                            syntax: "powershell"
+                        },
+                        "curl_cmd": {
+                            title: "cURL (CMD)",
+                            syntax: "bash"
+                        }
+                    }
+                },
+                
+                // Personnalisation de l'interface
+                onComplete: function() {
+                    // Ajout d'informations supplémentaires après le chargement
+                    console.log('Swagger UI loaded successfully');
+                    
+                    // Personnalisation du titre de la page
+                    document.title = 'API ISO 8583 Messages - Documentation';
+                },
+                
+                // Gestion des erreurs
+                onFailure: function(data) {
+                    console.error('Swagger UI failed to load:', data);
+                    
+                    // Affichage d'un message d'erreur à l'utilisateur
+                    const container = document.getElementById('swagger-ui');
+                    container.innerHTML = `
+                        <div style="padding: 20px; text-align: center;">
+                            <h2 style="color: #dc3545;">❌ Erreur de chargement</h2>
+                            <p>Impossible de charger la documentation API.</p>
+                            <p>Vérifiez que le fichier <code>swagger.yaml</code> est accessible.</p>
+                            <p>Erreur: <code>${data}</code></p>
+                        </div>
+                    `;
+                },
+                
+                // Configuration du serveur par défaut
+                servers: [
+                    {
+                        url: "http://localhost/api",
+                        description: "Serveur de développement local"
+                    }
+                ]
+            });
+
+            // Ajout de fonctionnalités personnalisées
+            window.ui = ui;
+            
+            // Fonction utilitaire pour définir l'autorisation
+            window.setAuth = function(token) {
+                ui.preauthorizeApiKey('BearerAuth', 'Bearer ' + token);
+                console.log('Authorization token set');
+            };
+            
+            // Affichage de conseils dans la console
+            console.log('%c🚀 API ISO 8583 Messages Documentation', 'font-size: 16px; color: #1f4e79; font-weight: bold;');
+            console.log('%cUtilisez window.setAuth("votre_token") pour définir votre token d\'authentification', 'color: #6c757d;');
+            console.log('%cExemple: window.setAuth("abc123xyz")', 'color: #28a745; font-family: monospace;');
+        }
+    </script>
+</body>
+</html>

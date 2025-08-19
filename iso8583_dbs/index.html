@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISO 8583 Secure Message Manager</title>
+    
+    <!-- CSS Principal -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Librairies JavaScript externes -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.0/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="auth-status">
+                <div class="status-indicator" id="authIndicator"></div>
+                <span id="authStatus">Non authentifié</span>
+            </div>
+            <img class="fit-picture" src="./exemples/logo-dark.png"/><h1> ISO 8583 Secure Manager</h1>
+            <p>Gestionnaire sécurisé de messages ISO 8583 avec chiffrement PAN</p>
+        </div>
+
+        <div class="content">
+            <div id="alerts"></div>
+
+            <!-- Authentication Section -->
+            <div class="auth-section" id="authSection">
+                <h2>🔑 Authentification</h2>
+                <div class="token-input-group">
+                    <input 
+                        type="password" 
+                        id="bearerToken" 
+                        class="token-input" 
+                        placeholder="Bearer Token (ex: bearer_token_example_123456789)"
+                        value="bearer_token_example_123456789"
+                    >
+                    <button class="btn success" onclick="authenticate()">Se connecter</button>
+                    <button class="btn danger" onclick="disconnect()" id="disconnectBtn" style="display: none;">Se déconnecter</button>
+                </div>
+                <p style="color: #7f8c8d; font-size: 0.9rem; margin-top: 10px;">
+                    💡 Tokens d'exemple: <code>bearer_token_example_123456789</code> ou <code>api_key_iso8583_secure_2024</code>
+                </p>
+            </div>
+
+            <!-- Statistics -->
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalMessages">0</div>
+                    <div class="stat-label">Messages Total</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="currentPage">1</div>
+                    <div class="stat-label">Page Actuelle</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                    <div class="stat-number">🔒</div>
+                    <div class="stat-label">PAN Chiffré</div>
+                </div>
+            </div>
+
+            <!-- Upload Section -->
+            <div class="section disabled" id="uploadSection">
+                <h2>📤 Ajouter un Message ISO 8583 <span class="security-badge">SÉCURISÉ</span></h2>
+                <div class="upload-area" onclick="document.getElementById('xmlFile').click()">
+                    <div class="upload-icon">📁</div>
+                    <h3>Cliquez ici ou glissez-déposez votre fichier XML</h3>
+                    <p>Formats acceptés: XML (ISO 8583) - PAN automatiquement chiffré</p>
+                    <input type="file" id="xmlFile" class="file-input" accept=".xml" onchange="uploadFile(this.files[0])">
+                </div>
+            </div>
+
+            <!-- Messages List -->
+            <div class="section disabled" id="messagesSection">
+                <h2>📋 Liste des Messages <span class="security-badge">PROTÉGÉS</span></h2>
+                <div id="messagesContainer">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Authentification requise...</p>
+                    </div>
+                </div>
+                <div class="pagination" id="pagination"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for message details -->
+    <div id="messageModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <!-- Script principal -->
+    <script src="app.js"></script>
+</body>
+</html>
