@@ -41,7 +41,7 @@ class Database {
      * En production: utiliser un utilisateur dédié avec des privilèges minimaux
      * Éviter d'utiliser 'root' en production pour des raisons de sécurité
      */
-    private $username = 'root';
+    private $username = '';
     
     /**
      * Mot de passe pour la connexion MySQL
@@ -49,7 +49,7 @@ class Database {
      * ATTENTION: Ce mot de passe est exposé dans le code source
      * En production: utiliser des variables d'environnement ou un fichier de config sécurisé
      */
-    private $password = 'StiveKelly$0203';
+    private $password = '';
     
     /**
      * Objet de connexion PDO
