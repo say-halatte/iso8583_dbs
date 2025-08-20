@@ -212,7 +212,7 @@ La documentation complète est disponible via Swagger UI à l'adresse :
 
 ## 🤝 Contribution
 
-Ce projet a été développé dans le cadre d'un test de recrutement pour **Digital Business Solutions SA**.
+Ce projet a été développé par **@say-halatte** dans le cadre d'un test de recrutement pour **Digital Business Solutions SA**.
 
 ---
 
