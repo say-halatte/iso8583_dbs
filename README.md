@@ -38,7 +38,7 @@ Serveur web (Apache/Nginx) ou PHP built-in server
 === CONFIGURATION ET INSTALLATION ===
 
 # 1. Structure des dossiers :
-iso8583_dbs/
+`iso8583_dbs/
 ├── api/
 │   ├── index.php              
 │   ├── swagger.yaml           (spécification OpenAPI pour Swagger UI)
@@ -59,6 +59,7 @@ iso8583_dbs/
     ├── sample_msg3.xml
     ├── sample_msg4.xml
     └── sample_msg5.xml
+`
 
 # 2. Installation
 1. Vous pouvez Créer la base de données avec le script database.sql qui se trouve dans le repertoire.
